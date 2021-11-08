@@ -7,23 +7,23 @@
     "production": "NODE_ENV=product node ./bin/www"
   },
   "dependencies": {
-    "aws-sdk": "^2.948.0",
+    "aws-sdk": "^2.1023.0",
     "bcryptjs": "^2.4.3",
     "chai": "^4.3.4",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "~1.4.5",
     "cors": "^2.8.5",
-    "debug": "~2.6.9",
+    "debug": "~4.3.2",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
+    "express": "~4.17.1",
+    "http-errors": "~1.8.0",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
-    "mocha": "^9.0.2",
-    "mongoose": "^5.13.2",
-    "morgan": "~1.9.1",
-    "multer": "^1.4.2",
-    "nodemon": "^2.0.12",
-    "sinon": "^11.1.1"
+    "mocha": "^9.1.3",
+    "mongoose": "^6.0.12",
+    "morgan": "~1.10.0",
+    "multer": "^1.4.3",
+    "nodemon": "^2.0.14",
+    "sinon": "^12.0.1"
   }
 }
