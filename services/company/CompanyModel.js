@@ -7,14 +7,17 @@ const Company = mongoose.model("Company",
        industry: {type: String, required: true},
        address: {type: String, required: true},
        description: {type: String, required: true},
-       logo: {type: String},
-       backDrop: {type: String},
+       logoVersion: {type: Number},
+       backdropVersion: {type: Number},
        photos: {
            type: [{
-               s3Key: {type:String, required: true}
+               _id: false,
+               id: {type: String, required: true},
+               createTime: {type: Date, default: Date.now()}
            }],
            default: []
-       }
+       },
+       createdByUserId: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
    })
 )
 
