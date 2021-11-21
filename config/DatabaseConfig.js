@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 function connectDb() {
     // const dbUrlLocal = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`;
-    const dbUrlCloud = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+    // const dbUrlCloud = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
     // const dbUrlCloud = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
     if (process.env.NODE_ENV !== 'product') {
         mongoose.set('debug', true);
     }
 
-    console.log(`Start connect to db url: ${dbUrlCloud} ....`);
+    console.log(`Start connect to db url: ${process.env.DB_URL} ....`);
     return mongoose
         .connect(process.env.DB_URL, {
             useNewUrlParser: true,
