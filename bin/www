@@ -23,7 +23,7 @@ async function startServer() {
    * Get port from environment and store in Express.
    */
 
-  const port = normalizePort(process.env.SERVER_PORT || '3000');
+  const port = normalizePort(process.env.SERVER_PORT || '8080');
   app.set('port', port);
 
   await connectDb().then(()=> {
