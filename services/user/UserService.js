@@ -3,8 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const ProfileService = require("../profile/ProfileService");
 
-function UserResponse(id, username, roles, accessToken, avatarUrl) {
-    return {id, username, roles, accessToken, avatarUrl}
+function UserResponse(id, username, firstname, lastname, roles, accessToken, avatarUrl) {
+    return {id, username, firstname, lastname, roles, accessToken, avatarUrl}
 }
 
 
@@ -31,7 +31,7 @@ const UserService = {
         await ProfileService.createProfile(savedUser.id);
         const accessToken = this.createToken(savedUser._id);
 
-        return new UserResponse(savedUser._id, savedUser.username, savedUser.roles, accessToken);
+        return new UserResponse(savedUser._id, savedUser.username, savedUser.firstname, savedUser.lastname, savedUser.roles, accessToken);
     },
 
     async login(username, password) {
