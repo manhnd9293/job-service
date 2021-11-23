@@ -9,8 +9,8 @@ const User = mongoose.model(
         roles: {type: [String], default: [Role.Student]},
         avatarUrl: {type: String},
         email: {type:String},
-        firstname: {type: String},
-        lastname: {type: String}
+        firstname: {type: String, required: true},
+        lastname: {type: String, required: true}
     })
 )
 
