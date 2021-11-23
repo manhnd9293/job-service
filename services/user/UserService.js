@@ -53,12 +53,12 @@ const UserService = {
             expiresIn: process.env.JWT_EXPRIRE // 24 hours
         });
 
-        return new UserResponse(user._id, user.username, user.roles, token, user.avatarUrl);
+        return new UserResponse(user._id, user.username, user.firstname, user.lastname ,user.roles, token, user.avatarUrl);
     },
 
     async getUserInfoFromToken(userId, token) {
         const user = await User.findOne({ _id: userId });
-        return new UserResponse(user._id, user.username, user.roles, token, user.avatarUrl);
+        return new UserResponse(user._id, user.username, user.firstname, user.lastname, user.roles, token, user.avatarUrl);
     },
 
     createToken(userId) {
