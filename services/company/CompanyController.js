@@ -5,6 +5,7 @@ const multer = require("multer");
 const upload = multer({dest: "temp/"});
 const {unlink} = require("fs/promises");
 const crypto = require("crypto");
+const {jwtAuth} = require("../../middlewares");
 
 /**
  * get by id
@@ -28,6 +29,20 @@ router.get("/:companyId", async (req, res) => {
         res.status(500).send("Fail to get company information");
     }
 });
+
+router.get('/my/brief',jwtAuth.verifyToken, async (req, res) =>{
+    try{
+        const {userId} = req;
+        const listMyCompany = await Company.find({createdByUserId: userId}, {_id: 1, name: 1});
+        res.status(200).json(listMyCompany);
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("Fail to get list my company");
+    }
+
+
+
+})
 
 /**
  * get list of company
