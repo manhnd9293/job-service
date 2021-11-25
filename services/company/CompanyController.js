@@ -33,7 +33,7 @@ router.get("/:companyId", async (req, res) => {
 router.get('/my/brief',jwtAuth.verifyToken, async (req, res) =>{
     try{
         const {userId} = req;
-        const listMyCompany = await Company.find({createdByUserId: userId}, {_id: 1, name: 1});
+        const listMyCompany = await Company.find({createdByUserId: userId}, {_id: 1, name: 1, address: 1});
         res.status(200).json(listMyCompany);
     } catch (e) {
         console.log(e);
