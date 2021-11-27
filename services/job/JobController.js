@@ -4,10 +4,11 @@ const router = require('express').Router();
 /**
  * get job posted by userId
  */
-router.get('/', async (req, res) => {
+router.get('/',jwtAuth.verifyToken, async (req, res) => {
     try {
         const {userId} = req;
-        const job = await Job.find({createdByUserId: userId});
+        const job = await Job.find({createdByUserId: userId})
+            .populate({path: 'companyId', select: 'name logoVersion'} );
         res.status(200).json(job);
     } catch (e) {
         console.log(e);
