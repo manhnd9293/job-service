@@ -30,6 +30,9 @@ router.get("/:companyId", async (req, res) => {
     }
 });
 
+/**
+ * get brief list of my company
+ */
 router.get('/my/brief',jwtAuth.verifyToken, async (req, res) =>{
     try{
         const {userId} = req;
@@ -70,6 +73,7 @@ router.post("/", async (req, res) => {
         res.status(500).send("Fail to create company information");
     }
 });
+
 
 /**
  * get logo

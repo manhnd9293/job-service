@@ -54,4 +54,19 @@ router.post('/',jwtAuth.verifyToken, async (req, res) => {
     }
 })
 
+/**
+ * publish job
+ */
+router.put('/', jwtAuth.verifyToken, async (req, res) => {
+    try {
+        const {jobId} = req.body;
+        const job = await Job.findById(jobId);
+        job.status = JobPostStatus.Posted;
+        const saved = await job.save();
+        res.status(200).send(`post success`);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json(`Fail to publish job`);
+    }
+})
 module.exports = router;
