@@ -26,10 +26,12 @@ router.get('/review/:id', jwtAuth.verifyToken, async (req, res) => {
 
         if (job.createdByUserId.toString() !== userId) {
             res.status(400).send('Invalid userId');
+            return;
         }
 
         if (job.status !== JobPostStatus.Pending) {
             res.status(400).send('Invalid job review');
+            return;
         }
         res.status(200).json(job);
     } catch (e) {
@@ -69,4 +71,34 @@ router.put('/', jwtAuth.verifyToken, async (req, res) => {
         res.status(500).json(`Fail to publish job`);
     }
 })
+
+/**
+ * get posted job
+ */
+router.get('/posted',jwtAuth.verifyToken, async (req, res) => {
+    try {
+        const postedList = await Job.find({status: JobPostStatus.Posted}, {jobDescription: false})
+            .populate({path: 'companyId', select: 'name logoVersion'});
+        res.status(200).send(postedList);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json('Fail to get posted job')
+    }
+})
+
+/**
+ * get job detail for employee
+ */
+router.get('/detail/:id', async (req, res) => {
+    try {
+       const {id} = req.params;
+       const jobDetail = await Job.findById(id)
+           .populate({path: 'companyId', select: 'name size description logoVersion'});
+        res.status(200).json(jobDetail);
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Fail to get job detail');
+    }
+})
+
 module.exports = router;
