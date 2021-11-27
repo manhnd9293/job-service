@@ -13,7 +13,7 @@ const Job = mongoose.model("Job",
     new mongoose.Schema({
         title: {type: String, required: true},
         companyId: {type: mongoose.Schema.Types.ObjectId, ref: "Company"},
-        createdUserId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        createdByUserId: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
         yearOfExp: {type: Number},
         salary: {
             from: {type: Number},
