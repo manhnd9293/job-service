@@ -29,10 +29,10 @@ router.get('/review/:id', jwtAuth.verifyToken, async (req, res) => {
             return;
         }
 
-        if (job.status !== JobPostStatus.Pending) {
-            res.status(400).send('Invalid job review');
-            return;
-        }
+        // if (job.status !== JobPostStatus.Pending) {
+        //     res.status(400).send('Invalid job review');
+        //     return;
+        // }
         res.status(200).json(job);
     } catch (e) {
         console.log(e);
