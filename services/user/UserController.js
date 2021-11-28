@@ -43,10 +43,14 @@ router.get('/:userId', verifyToken, async (req, res) => {
 
 router.post('/register', async (req, res, next) => {
     try {
-        const username = req.body.username;
-        const password = req.body.password;
-        console.log(`register user: ${username}`)
-        const newUser = await UserService.register(username, password)
+        const {username, password, confirmPassword, firstname, lastname} = req.body;
+        console.log(`register user: ${username}`);
+        if (password !== confirmPassword) {
+            res.status(400).send('Confirm password not match');
+            return;
+        }
+
+        const newUser = await UserService.register(username, password, firstname, lastname);
         console.log(`create user success`, newUser);
         res.status(200).send(newUser);
     } catch (e){
@@ -67,6 +71,7 @@ router.post('/login', async (req, res, next) => {
         res.status(ResponseStatus.BadRequest).send(e.message);
     }
 })
+
 /**
  * update preview avatar
  */

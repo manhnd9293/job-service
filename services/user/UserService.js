@@ -9,7 +9,7 @@ function UserResponse(id, username, firstname, lastname, roles, accessToken, ava
 
 
 const UserService = {
-    async register(username, password) {
+    async register(username, password, firstname, lastname) {
         if (username.length < 6) {
             throw new Error("Username is too short") ;
         }
@@ -26,7 +26,7 @@ const UserService = {
         if (checkUserExist) {
             throw Error("username existed");
         }
-        const userInfo = {username,password: bcrypt.hashSync(password, 8)};
+        const userInfo = {username,password: bcrypt.hashSync(password, 8), firstname, lastname};
         const savedUser = await new User(userInfo).save();
         await ProfileService.createProfile(savedUser.id);
         const accessToken = this.createToken(savedUser._id);
