@@ -41,6 +41,22 @@ router.get('/:userId', verifyToken, async (req, res) => {
     }
 })
 
+router.post('/checkUsername', async (req, res) => {
+    try {
+        const {username} = req.body;
+        const user = await User.findOne({username});
+        if (user) {
+            res.status(200).json({isExist: true})
+            return;
+        }
+        res.status(200).json({isExist: false});
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('fail to check username');
+
+    }
+})
+
 router.post('/register', async (req, res, next) => {
     try {
         const {username, password, confirmPassword, firstname, lastname} = req.body;
