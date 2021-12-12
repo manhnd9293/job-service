@@ -7,6 +7,18 @@ const {unlink} = require("fs/promises");
 const crypto = require("crypto");
 const {jwtAuth} = require("../../middlewares");
 
+router.get("/myOwn", jwtAuth.verifyToken, async (req,res) => {
+    try {
+        const {userId} = req;
+        const list = await Company.find({createdByUserId: userId});
+        res.status(200).send(list);
+    } catch (e) {
+        console.log(e);
+        res.status(500).send(`Fail to get user created companies`)
+    }
+})
+
+
 /**
  * get by id
  */
@@ -29,6 +41,7 @@ router.get("/:companyId", async (req, res) => {
         res.status(500).send("Fail to get company information");
     }
 });
+
 
 /**
  * get brief list of my company
