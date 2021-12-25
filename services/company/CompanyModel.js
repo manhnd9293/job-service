@@ -11,8 +11,6 @@ const Company = mongoose.model("Company",
        backdropVersion: {type: Number},
        photos: {
            type: [{
-               _id: false,
-               id: {type: String, required: true},
                createTime: {type: Date, default: Date.now()}
            }],
            default: []

@@ -42,13 +42,31 @@ function getFileStream(fileKey) {
     return s3.getObject(downloadParams).createReadStream();
 }
 
-async function deleteFile(fileKeys) {
+async function deleteFileList(fileKeys) {
     const deleteParams = {
         Bucket: bucketName,
         Delete: {
             Objects: fileKeys.map(key => {
                 return {Key: key}
             })
+        }
+    }
+    return s3.deleteObjects(deleteParams, (err, data) => {
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+        console.log(data);
+        return data;
+    })
+}
+async function deleteFile(fileKey) {
+    const deleteParams = {
+        Bucket: bucketName,
+        Delete: {
+            Objects: [
+                 {Key: fileKey}
+            ]
         }
     }
     return s3.deleteObjects(deleteParams, (err, data) => {

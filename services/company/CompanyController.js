@@ -1,5 +1,5 @@
 const Company = require("./CompanyModel");
-const {s3, uploadFile, getFileStream} = require("../../utils/s3Service");
+const {s3, uploadFile, getFileStream, deleteFile} = require("../../utils/s3Service");
 const router = require("express").Router();
 const multer = require("multer");
 const upload = multer({dest: "temp/"});
@@ -33,7 +33,7 @@ router.get("/:companyId", async (req, res) => {
             company.backDropUrl = `${process.env.SERVER_DOMAIN}/api/v1/company/${companyId}/backdrop/v${company.backdropVersion}`;
         }
         company.photos.forEach((photo) => {
-            photo.url = `${process.env.SERVER_DOMAIN}/api/v1/company/${companyId}/photo/${photo.id}`;
+            photo.url = `${process.env.SERVER_DOMAIN}/api/v1/company/${companyId}/photo/${photo._id}`;
         });
         res.status(200).send(company);
     } catch (e) {
@@ -190,15 +190,20 @@ router.patch("/:companyId/photo", upload.single("photo"), async (req, res) => {
         const {file} = req;
 
         const company = await Company.findById(companyId);
-        const photoId = crypto.randomBytes(16).toString("hex");
-        company.photos.push({id: photoId});
+        company.photos.push({});
         await company.save();
+        const updateCompany = await Company.findById(companyId);
+
+        const photoId = updateCompany.photos[updateCompany.photos.length - 1]._id;
+
         const s3Response = await uploadFile(
             file,
             `company/${companyId}/photo/${photoId}`
         ).then((data) => {
             unlink(file.path);
         });
+
+
         res
             .status(200)
             .send(
@@ -209,5 +214,19 @@ router.patch("/:companyId/photo", upload.single("photo"), async (req, res) => {
         res.status(500).send("Fail to add a photo");
     }
 });
+
+router.delete('/:companyId/photos/:photoId',jwtAuth.verifyToken, async (req,res) => {
+    try {
+        const {companyId, photoId} = req.params;
+        const company = await Company.findById(companyId);
+        company.photos.id(photoId).remove();
+        await company.save();
+        await deleteFile(`company/${companyId}/photo/${photoId}`)
+        res.status(200).send('Delete success');
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Fail to delete file')
+    }
+})
 
 module.exports = router;
