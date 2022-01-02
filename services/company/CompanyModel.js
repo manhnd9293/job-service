@@ -19,4 +19,4 @@ const Company = mongoose.model("Company",
    })
 )
 
-module.exports = Company
+module.exports = Company 

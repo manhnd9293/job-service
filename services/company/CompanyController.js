@@ -4,7 +4,6 @@ const router = require("express").Router();
 const multer = require("multer");
 const upload = multer({dest: "temp/"});
 const {unlink} = require("fs/promises");
-const crypto = require("crypto");
 const {jwtAuth} = require("../../middlewares");
 
 router.get("/myOwn", jwtAuth.verifyToken, async (req,res) => {
