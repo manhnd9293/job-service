@@ -4,6 +4,7 @@ const UserController = require('../services/user/UserController')
 const CommonController = require('../services/common/CommonController')
 const CompanyController = require('../services/company/CompanyController')
 const JobController = require('../services/job/JobController')
+const MigrateController = require('../services/migrate/MigrateController')
 
 const {jwtAuth} = require("../middlewares");
 
@@ -17,6 +18,7 @@ router.use("/api/v1/user", UserController);
 router.use("/api/v1/common", CommonController);
 router.use("/api/v1/company", CompanyController);
 router.use("/api/v1/job", JobController);
+router.use("/api/v1/migrate", MigrateController);
 
 
 module.exports = router;

@@ -5,6 +5,7 @@ const multer = require("multer");
 const upload = multer({dest: "temp/"});
 const {unlink} = require("fs/promises");
 const {jwtAuth} = require("../../middlewares");
+const {CompanySize, Industry, City} = require("./CompanyEnums");
 
 router.get("/myOwn", jwtAuth.verifyToken, async (req,res) => {
     try {
@@ -17,6 +18,23 @@ router.get("/myOwn", jwtAuth.verifyToken, async (req,res) => {
     }
 })
 
+router.get('/list/:listType', (req, res) => {
+    const {listType} = req.params;
+    switch (listType) {
+        case 'industry':
+            res.json(Object.values(Industry));
+            break;
+        case 'size':
+            res.json(Object.values(CompanySize));
+            break;
+        case 'city':
+            res.json(Object.values(City));
+            break;
+        default:
+            res.status(400).json('invalid list type');
+            break;
+    }
+})
 
 /**
  * get by id
@@ -54,17 +72,23 @@ router.get('/my/brief',jwtAuth.verifyToken, async (req, res) =>{
         console.log(e);
         res.status(500).send("Fail to get list my company");
     }
-
-
-
 })
 
 /**
  * get list of company
  */
-router.get("/", async (req, res) => {
+router.get("/",jwtAuth.verifyToken, async (req, res) => {
     try {
-        const docs = await Company.find({});
+        const {searchKey, size, city, industry} = req.query;
+        console.log({searchKey, size, city, industry});
+        const filterObject = {
+            name: {$regex: new RegExp(searchKey, 'i')},
+            ...(size ? {size} : {}),
+            ...(city ? {city} : {}),
+            ...(industry ? {industry} : {}),
+        };
+
+        const docs = await Company.find(filterObject);
         res.status(200).send(docs);
     } catch (e) {
         console.log(e);
@@ -227,5 +251,6 @@ router.delete('/:companyId/photos/:photoId',jwtAuth.verifyToken, async (req,res)
         res.status(500).send('Fail to delete file')
     }
 })
+
 
 module.exports = router;
