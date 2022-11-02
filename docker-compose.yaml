@@ -1,0 +1,19 @@
+version: '3.8'
+
+volumes:
+  job-app-mongo:
+    name: job-app-mongo
+
+services:
+
+  mongo-db:
+    image: mongo
+    container_name: job-app-mongo
+    restart: always
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: manhnd
+        MONGO_INITDB_ROOT_PASSWORD: Manh1234
+    ports:
+      - '27027:27017'
+    volumes:
+      - job-app-mongo:/data/db

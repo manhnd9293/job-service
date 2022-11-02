@@ -21,7 +21,7 @@ const UserService = {
         if (password.length < 6) {
             throw new Error("Invalid password length");
         }
-
+        
         const checkUserExist = await User.findOne({username});
         if (checkUserExist) {
             throw Error("username existed");

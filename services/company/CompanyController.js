@@ -252,5 +252,4 @@ router.delete('/:companyId/photos/:photoId',jwtAuth.verifyToken, async (req,res)
     }
 })
 
-
 module.exports = router;
