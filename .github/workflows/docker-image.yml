@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build-docker-image:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t job-service .
+    - name:  Tag image
+      run: docker tag job-service manhndtest/job-service
+    - name: Login docker
+      env:
+        PASSWORD: ${{secrets.DOCKER_PWD}}
+      run: docker login -u manhndtest -p "$PASSWORD"
+    - name: Push to docker hub
+      run: docker push manhndtest/job-service
