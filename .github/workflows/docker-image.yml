@@ -1,5 +1,5 @@
 name: Docker Image CI
-
+# tes pr
 on:
   push:
     branches: [ "master" ]
@@ -22,5 +22,5 @@ jobs:
       env:
         PASSWORD: ${{secrets.DOCKER_PWD}}
       run: docker login -u manhndtest -p "$PASSWORD"
-    - name: Push to docker hub
+    - name: Push to dockerhub
       run: docker push manhndtest/job-service
